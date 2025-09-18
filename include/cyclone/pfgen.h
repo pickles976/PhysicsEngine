@@ -47,6 +47,56 @@ namespace cyclone {
             virtual void updateForce(Particle *particle, real duration);
     };
 
+    class ParticleSpring : public ParticleForceGenerator {
+        Particle *other;
+        real springConstant;
+        real restLength;
+
+        public:
+            ParticleSpring(Particle *other, real springConstant, real restLength);
+            virtual void updateForce(Particle *particle, real duration);
+    };
+
+    class ParticleAnchoredSpring : public ParticleForceGenerator {
+        Vector3 *anchor;
+        real springConstant;
+        real restLength;
+
+        public:
+            ParticleAnchoredSpring(Vector3 *anchor, real springConstant, real restLength);
+            virtual void updateForce(Particle *particle, real duration);
+    };
+    
+    class ParticleBungee : public ParticleForceGenerator {
+        Particle *other;
+        real springConstant;
+        real restLength;
+        public:
+            ParticleBungee(Particle *other, real springConstant, real restLength);
+            virtual void updateForce(Particle *particle, real duration);
+    };
+
+    class ParticleBuoyancy : public ParticleForceGenerator {
+        real maxDepth;
+        real volume;
+        real waterHeight;
+        real liquidDensity;
+
+        public:
+            ParticleBuoyancy(real maxDepth, real volume, real waterHeight, real liquidDensity = 1000.0f);
+            virtual void updateForce(Particle *particle, real duration);
+    };
+
+    class ParticleFakeSpring : public ParticleForceGenerator {
+        Vector3 *anchor;
+        real springConstant;
+        real damping;
+
+        public:
+            ParticleFakeSpring(Vector3 *anchor, real springConstant, real damping);
+            virtual void updateForce(Particle *particle, real duration);
+    }
+
 }
 
 #endif
