@@ -67,6 +67,8 @@ namespace cyclone {
         void clearAccumulator();
         void addForce(const Vector3 &force);
 
+        void print() const;
+
 
     };
 }

@@ -151,3 +151,13 @@ void Particle::addForce(const Vector3 &force)
 {
     forceAccum += force;
 }
+
+void Particle::print() const {
+    std::cout << "Position: ";
+    getPosition().print();
+    std::cout << " Velocity: ";
+    getVelocity().print();
+    std::cout << " Acceleration: ";
+    getVelocity().print();
+    std::cout << std::endl;
+}

@@ -1,4 +1,5 @@
 #include <math.h>
+#include <iostream>
 
 #ifndef CYCLONE_CORE_H
 #define CYCLONE_CORE_H
@@ -305,6 +306,10 @@ namespace cyclone
             x = -x;
             y = -y;
             z = -z;
+        }
+
+        void print() {
+            std::cout << "X: " << x << " Y: " << y << " Z: " << z;
         }
     };
 }

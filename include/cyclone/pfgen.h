@@ -4,6 +4,7 @@
 #include "core.h"
 #include "particle.h"
 #include <vector>
+#include <iostream>
 
 namespace cyclone {
 
@@ -29,6 +30,8 @@ namespace cyclone {
             void remove(Particle *particle, ParticleForceGenerator *fg);
             void clear();
             void updateForces(real duration);
+            void print();
+
     };
 
     class ParticleGravity : public ParticleForceGenerator {
