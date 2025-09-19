@@ -7,16 +7,11 @@ namespace cyclone {
 
     class Particle
     {
-    public:
-
-
-
     protected:
         real inverseMass;
         real damping;
         Vector3 position;
         Vector3 velocity;
-
 
         Vector3 forceAccum;
         Vector3 acceleration;

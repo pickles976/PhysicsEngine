@@ -95,7 +95,7 @@ namespace cyclone {
         public:
             ParticleFakeSpring(Vector3 *anchor, real springConstant, real damping);
             virtual void updateForce(Particle *particle, real duration);
-    }
+    };
 
 }
 

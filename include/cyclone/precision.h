@@ -9,6 +9,8 @@
 #define real_exp expf
 #define real_sqrt sqrtf
 
+#define REAL_MAX DBL_MAX
+
 namespace cyclone {
     typedef float real;
 }

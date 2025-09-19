@@ -1,4 +1,4 @@
-#include <cyclone/pfgen.h>
+#include "../include/cyclone/pfgen.h"
 
 using namespace cyclone;
 
@@ -8,9 +8,28 @@ void ParticleForceRegistry::updateForces(real duration) {
     }
 }
 
+void ParticleForceRegistry::add(Particle* particle, ParticleForceGenerator *fg)
+{
+    ParticleForceRegistry::ParticleForceRegistration registration;
+    registration.particle = particle;
+    registration.fg = fg;
+    registrations.push_back(registration);
+}
+
+ParticleGravity::ParticleGravity(const Vector3& gravity)
+: gravity(gravity)
+{
+}
+
+
 void ParticleGravity::updateForce(Particle *particle, real duration) {
     if (!particle->hasFiniteMass()) return;
     particle->addForce(gravity * particle->getMass());
+}
+
+ParticleDrag::ParticleDrag(real k1, real k2)
+: k1(k1), k2(k2)
+{
 }
 
 void ParticleDrag::updateForce(Particle* particle, real duration) {
@@ -23,6 +42,11 @@ void ParticleDrag::updateForce(Particle* particle, real duration) {
     force.normalise();
     force *= -dragCoeff;
     particle->addForce(force);
+}
+
+ParticleSpring::ParticleSpring(Particle *other, real sc, real rl)
+: other(other), springConstant(sc), restLength(rl)
+{
 }
 
 void ParticleSpring::updateForce(Particle *particle, real duration) {
@@ -42,6 +66,12 @@ void ParticleSpring::updateForce(Particle *particle, real duration) {
 
 }
 
+ParticleAnchoredSpring::ParticleAnchoredSpring(Vector3 *anchor,
+                                               real sc, real rl)
+: anchor(anchor), springConstant(sc), restLength(rl)
+{
+}
+
 void ParticleAnchoredSpring::updateForce(Particle *particle, real duration) {
     Vector3 force;
     particle->getPosition(&force);
@@ -54,6 +84,12 @@ void ParticleAnchoredSpring::updateForce(Particle *particle, real duration) {
     force.normalise();
     force *= -magnitude;
     particle->addForce(force);
+}
+
+
+ParticleBungee::ParticleBungee(Particle *other, real sc, real rl)
+: other(other), springConstant(sc), restLength(rl)
+{
 }
 
 void ParticleBungee::updateForce(Particle* particle, real duration) {
@@ -71,6 +107,17 @@ void ParticleBungee::updateForce(Particle* particle, real duration) {
     particle->addForce(force);
 }
 
+ParticleBuoyancy::ParticleBuoyancy(real maxDepth,
+                                 real volume,
+                                 real waterHeight,
+                                 real liquidDensity)
+:
+maxDepth(maxDepth), volume(volume),
+waterHeight(waterHeight), liquidDensity(liquidDensity)
+{
+}
+
+
 void ParticleBuoyancy::updateForce(Particle* particle, real duration) {
     real depth = particle->getPosition().y;
     if (depth >= waterHeight + maxDepth) return;
@@ -85,6 +132,12 @@ void ParticleBuoyancy::updateForce(Particle* particle, real duration) {
     force.y = liquidDensity * volume * (depth - maxDepth - waterHeight) / 2 * maxDepth;
     particle->addForce(force);
 }
+
+ParticleFakeSpring::ParticleFakeSpring(Vector3 *anchor, real sc, real d)
+: anchor(anchor), springConstant(sc), damping(d)
+{
+}
+
 
 void ParticleFakeSpring::updateForce(Particle *particle, real duration) {
     if (!particle->hasFiniteMass()) return;
